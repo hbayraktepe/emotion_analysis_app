@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Emotion Analysis from Audio and Video</h1>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="audioFile">Upload Audio:</label>
+            <input type="file" id="audioFile" name="audio" accept=".wav,.ogg">
+            <br><br>
+            <label for="videoFile">Upload Video:</label>
+            <input type="file" id="videoFile" name="video" accept=".mp4">
+            <br><br>
+            <button type="submit">Upload and Analyze</button>
+        </form>
+        <div id="results">
+            <p id="audioEmotion">Audio Emotion: N/A</p>
+            <p id="videoEmotion">Video Emotion: N/A</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const formData = new FormData();
+            const audioFile = document.querySelector('input[name="audio"]');
+            const videoFile = document.querySelector('input[name="video"]');
+
+            formData.append('audio', audioFile.files[0]);
+            formData.append('video', videoFile.files[0]);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.audio_emotion) {
+                    document.getElementById('audioEmotion').innerText = "Audio Emotion: " + data.audio_emotion;
+                }
+                if (data.video_emotion) {
+                    document.getElementById('videoEmotion').innerText = "Video Emotion: " + data.video_emotion;
+                }
+                if (data.error) {
+                    document.getElementById('results').innerText = "Error: " + data.error;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
