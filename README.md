@@ -54,10 +54,22 @@ This Flask application performs emotion recognition on uploaded audio and video 
 ```
 emotion-analysis-app/
 │
-├── app.py                # Main application file
-├── requirements.txt      # Project dependencies
-├── README.md             # Project documentation
-└── uploads/              # Directory for uploaded files
+├── static/
+│   └── css/
+│       └── style.css
+│
+├── templates/
+│   └── index.html
+│
+├── uploads/
+│
+├── .gitignore
+├── app.py
+├── facialemotionmodel.h5
+├── facialemotionmodel.json
+├── README.md
+├── requirements.txt
+└── venv/
 ```
 
 ## Contributing
